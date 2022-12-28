@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
-    <div id="root">
+    <div id="a1">
       <!-- intro -->
       <div id="intro-container">
         <img id="intro-img" src="img/start-img.jpg" alt="시작하기이미지" />
@@ -28,7 +28,7 @@
       <div id="paging" class="hidden">
         <button id="before"><</button>
         <span id="question-count">/</span>
-        <button id="after">></button>
+        <button id="after" disabled>></button>
       </div>
 
       <!-- 페이지가 12일때 클릭하면 결과를 확인할 수 있는 button  -->
@@ -36,13 +36,18 @@
 
       <!-- intro일때를 제외하고 계속보여서 메인으로 돌아갈 수 있는  button -->
       <button id="goMain" class="hidden">메인으로 돌아가기</button>
-
-      <!-- footer -->
-      <div id="footer">
-        <p>개인정보보호정책</p>
-        <p>Copyright ⓒ 2022 sunokryu319 All Rights Reserved.</p>
-      </div>
     </div>
+
+    <div id="a2" class="hidden">
+      <p></p>
+    </div>
+
+    <!-- footer -->
+    <div id="footer">
+      <p>개인정보보호정책</p>
+      <p>Copyright ⓒ 2022 sunokryu319 All Rights Reserved.</p>
+    </div>
+
     <script src="js/apps.js"></script>
   </body>
 </html>

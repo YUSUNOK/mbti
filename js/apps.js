@@ -1,7 +1,3 @@
-/*
- 배열에서 특정 값 개수 구하기 
- filter
-*/
 const introImg = document.querySelector("#intro-img");
 const introContainer = document.querySelector("#intro-container");
 
@@ -24,6 +20,10 @@ pageCount.innerText = `${page} / 12`;
 const HIDDEN_KEY = "hidden";
 const CHECK_KEY = "check";
 
+disabledSet();
+
+let totalArr = [];
+
 const testList = {
   // page : 1 - 3 index : 0
   zero: {
@@ -39,7 +39,6 @@ const testList = {
       ["어딜 가든 친구를 사귄다.", "진정한 친구가 몇 안된다."],
     ],
     choose: ["E", "I"],
-    result: null,
   },
 
   // s n
@@ -58,7 +57,6 @@ const testList = {
       ],
     ],
     choose: ["S", "N"],
-    result: null,
   },
   // t f
   // page : 7 - 9 index : 2
@@ -76,7 +74,6 @@ const testList = {
       ],
     ],
     choose: ["T", "F"],
-    result: null,
   },
   // p j
   // page : 10 - 12 index : 3
@@ -92,13 +89,17 @@ const testList = {
     ],
 
     choose: ["P", "J"],
-    result: null,
   },
 };
 // testListArr[0~3].select[0 ~ 2][0 ~ 1]
 // testListArr[0~3].choose[0 ~ 1]
 // testListArr[0~3].result
 const testListArr = [testList.zero, testList.one, testList.two, testList.three];
+
+indexSet();
+let index2 = 0;
+option1.innerText = testListArr[index].select[index2][0];
+option2.innerText = testListArr[index].select[index2][1];
 
 // test start
 function showChoose() {
@@ -122,6 +123,33 @@ function check(event) {
   } else {
     option1.classList.remove(CHECK_KEY);
   }
+
+  if (
+    option1.classList.contains(CHECK_KEY) ||
+    option2.classList.contains(CHECK_KEY)
+  ) {
+    after.disabled = false;
+  }
+
+  if (
+    !(
+      option1.classList.contains(CHECK_KEY) ||
+      option2.classList.contains(CHECK_KEY)
+    )
+  ) {
+    after.disabled = true;
+  }
+  if (page === 12) {
+    after.disabled = true;
+  }
+
+  if (
+    page === 12 &&
+    (option1.classList.contains(CHECK_KEY) ||
+      option2.classList.contains(CHECK_KEY))
+  ) {
+    printResult.classList.remove(HIDDEN_KEY);
+  }
 }
 
 option1.addEventListener("click", check);
@@ -137,7 +165,6 @@ function disabledSet() {
   } else if (page === 12) {
     after.disabled = true;
     // 결과보기 button 생성
-    printResult.classList.remove(HIDDEN_KEY);
   } else {
     printResult.classList.add(HIDDEN_KEY);
     before.disabled = false;
@@ -146,16 +173,45 @@ function disabledSet() {
   pageCount.innerText = `${page} / 12`;
 }
 
-// 페이지를 넘기는 함수
+// 페이지 +1 함수
 function pagePlus() {
+  after.disabled = false;
+  const newAnswer = document.querySelector(".check").value;
+  totalArr.push(newAnswer);
+  console.log(totalArr);
   page++;
   disabledSet();
+  indexSet();
+  if (index2 === 2) {
+    index2 = 0;
+  } else {
+    index2++;
+  }
+
+  option1.innerText = testListArr[index].select[index2][0];
+  option2.innerText = testListArr[index].select[index2][1];
+  option1.classList.remove(CHECK_KEY);
+  option2.classList.remove(CHECK_KEY);
+  after.disabled = true;
 }
 
-// 페이지가 -1 되는 함수
+// 페이지가 -1 함수
 function pageMinus() {
+  option1.classList.remove(CHECK_KEY);
+  option2.classList.remove(CHECK_KEY);
+  totalArr.pop();
+  console.log(totalArr);
   page--;
   disabledSet();
+  indexSet();
+  if (index2 === 0) {
+    index2 = 2;
+  } else {
+    index2--;
+  }
+  option1.innerText = testListArr[index].select[index2][0];
+  option2.innerText = testListArr[index].select[index2][1];
+  after.disabled = true;
 }
 
 // before클릭하면 page 숫자 -1
@@ -171,38 +227,7 @@ goMain.addEventListener("click", function reload() {
 });
 
 //printResult.addEventListener("click", ) 결과는?!버튼을 눌렀을 때
-/*
 
-
-    1)
-    <div id="title" class="hidden">hobby-choose!</div>
-
-      <!-- 두개 선택 -->
-      <div id="option-btn-div" class="hidden">
-        <button id="option-con1"></button>
-        <button id="option-con2"></button>
-      </div>
-
-      <!-- 페이징 -->
-      <div id="paging" class="hidden">
-        <button id="before"><</button>
-        <span id="question-count">/</span>
-        <button id="after">></button>
-      </div>
-      <button id="printResult" class="hidden">결과는?!</button><br />
-
-      에 hidden 클래스 add 
-
-
-      2) 
-      결과 container hidden remove
-
-
-
-      3) 결과 container에 결과 보이게
-    
-
-*/
 // testListArr의 index set 함수
 function indexSet() {
   if (page % 3 === 0) {
@@ -211,3 +236,32 @@ function indexSet() {
     index = parseInt(page / 3);
   }
 }
+let finalResultString = "";
+function finalResult() {
+  const newAnswer = document.querySelector(".check").value;
+  totalArr.push(newAnswer);
+  console.log(totalArr);
+
+  let finalIndex = 0;
+  for (let i = 0; i < totalArr.length / 3; i++) {
+    let middleResult = 0;
+    for (let j = 0; j < 3; j++) {
+      middleResult += Number(totalArr[finalIndex++]);
+    }
+
+    // middleresult >= 2 -> choose[1]
+    if (middleResult >= 2) {
+      finalResultString += `${testListArr[i].choose[1]}`;
+    } else {
+      finalResultString += `${testListArr[i].choose[0]}`;
+    }
+  }
+  document.querySelector("#a1").classList.add(HIDDEN_KEY);
+  document.querySelector(
+    "#a2 p"
+  ).innerText = `귀하의 mbti는 ${finalResultString}입니다.`;
+  document.querySelector("#a2").classList.remove(HIDDEN_KEY);
+  console.log(finalResultString);
+}
+
+printResult.addEventListener("click", finalResult);
