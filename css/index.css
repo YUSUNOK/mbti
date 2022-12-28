@@ -1,0 +1,11 @@
+.hidden {
+  display: none;
+}
+
+body {
+  background-color: beige;
+}
+
+.check {
+  background-color: orange;
+}
