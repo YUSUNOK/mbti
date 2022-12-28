@@ -9,3 +9,20 @@ body {
 .check {
   background-color: orange;
 }
+
+#intro-img {
+  margin: 0 auto;
+  max-width: 550px;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+
+div {
+  display: block;
+}
