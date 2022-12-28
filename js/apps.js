@@ -221,12 +221,9 @@ before.addEventListener("click", pageMinus);
 after.addEventListener("click", pagePlus);
 
 goMain.addEventListener("click", function reload() {
-  // localStorage 사용시 데이터 없애주는 코드 추가해야 한다
   // 새로고침
   location.reload();
 });
-
-//printResult.addEventListener("click", ) 결과는?!버튼을 눌렀을 때
 
 // testListArr의 index set 함수
 function indexSet() {
@@ -236,6 +233,7 @@ function indexSet() {
     index = parseInt(page / 3);
   }
 }
+
 let finalResultString = "";
 function finalResult() {
   const newAnswer = document.querySelector(".check").value;
