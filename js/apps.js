@@ -255,9 +255,7 @@ function finalResult() {
     }
   }
   document.querySelector("#a1").classList.add(HIDDEN_KEY);
-  document.querySelector(
-    "#a2 p"
-  ).innerText = `귀하의 mbti는 ${finalResultString}입니다.`;
+  document.querySelector("#a2 img").src = `img/${finalResultString}.jpg`;
   document.querySelector("#a2").classList.remove(HIDDEN_KEY);
   console.log(finalResultString);
 }
